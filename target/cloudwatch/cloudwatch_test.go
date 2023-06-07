@@ -41,7 +41,7 @@ func TestRefCanBeConfigured(t *testing.T) {
 	req.Equal("A", target.Builder.RefID)
 }
 
-func TestRefCanBeHidden(t *testing.T) {
+func TestTargetCanBeHidden(t *testing.T) {
 	req := require.New(t)
 
 	query := &cloudwatch.CloudwatchQueryParams{}
@@ -49,4 +49,14 @@ func TestRefCanBeHidden(t *testing.T) {
 	target := cloudwatch.New(*query, cloudwatch.Hide())
 
 	req.True(target.Builder.Hide)
+}
+
+func TestExprCanBeConfigured(t *testing.T) {
+	req := require.New(t)
+
+	query := &cloudwatch.CloudwatchQueryParams{}
+
+	target := cloudwatch.New(*query, cloudwatch.Expr("1-($A/$B)"))
+
+	req.Equal("1-($A/$B)", target.Builder.Expr)
 }

@@ -52,3 +52,10 @@ func Hide() Option {
 		cloudwatch.Builder.Hide = true
 	}
 }
+
+// Expr sets the expression for this query.
+func Expr(expr string) Option {
+	return func(cloudwatch *Cloudwatch) {
+		cloudwatch.Builder.Expr = expr
+	}
+}

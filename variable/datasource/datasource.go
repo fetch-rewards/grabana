@@ -91,3 +91,14 @@ func IncludeAll() Option {
 		})
 	}
 }
+
+func Default(value string) Option {
+	return func(query *Datasource) {
+		query.Builder.Current = sdk.Current{
+			Text: &sdk.StringSliceString{
+				Value: []string{value},
+				Valid: true,
+			},
+		}
+	}
+}

@@ -75,3 +75,11 @@ func TestDataSourceTypeCanBeSet(t *testing.T) {
 
 	req.Equal("prometheus", panel.Builder.Query)
 }
+
+func TestDefaultValueCanBeSet(t *testing.T) {
+	req := require.New(t)
+
+	panel := New("", Default("99"))
+
+	req.Equal([]string{"99"}, panel.Builder.Current.Text.Value)
+}

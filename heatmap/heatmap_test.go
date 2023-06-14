@@ -82,6 +82,7 @@ func TestHeatmapPanelCanHaveCloudwatchTargets(t *testing.T) {
 		Namespace:  "AWS/SQS",
 		Period:     "30",
 		Region:     "us-east-1",
+		Expr:       "1-($A/$B)",
 	}
 
 	panel, err := New("", WithCloudwatchTarget(query))

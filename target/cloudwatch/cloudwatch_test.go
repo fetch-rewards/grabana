@@ -19,6 +19,7 @@ func TestQueriesCanBeCreated(t *testing.T) {
 		MetricName: "NumberOfMessagesReceived",
 		Period:     "30",
 		Region:     "us-east-1",
+		Expr:       "1-($A/$B)",
 	}
 
 	target := cloudwatch.New(*query)
@@ -29,6 +30,7 @@ func TestQueriesCanBeCreated(t *testing.T) {
 	req.Equal(query.MetricName, target.Builder.MetricName)
 	req.Equal(query.Period, target.Builder.Period)
 	req.Equal(query.Region, target.Builder.Region)
+	req.Equal(query.Expr, target.Builder.Expr)
 }
 
 func TestRefCanBeConfigured(t *testing.T) {
@@ -49,14 +51,4 @@ func TestTargetCanBeHidden(t *testing.T) {
 	target := cloudwatch.New(*query, cloudwatch.Hide())
 
 	req.True(target.Builder.Hide)
-}
-
-func TestExprCanBeConfigured(t *testing.T) {
-	req := require.New(t)
-
-	query := &cloudwatch.CloudwatchQueryParams{}
-
-	target := cloudwatch.New(*query, cloudwatch.Expr("1-($A/$B)"))
-
-	req.Equal("1-($A/$B)", target.Builder.Expr)
 }

@@ -17,6 +17,7 @@ type CloudwatchQueryParams struct {
 	MetricName string            `yaml:",omitempty"`
 	Period     string            `yaml:",omitempty"`
 	Region     string            `yaml:",omitempty"`
+	Expr       string            `yaml:",omitempty"`
 }
 
 func New(target CloudwatchQueryParams, options ...Option) *Cloudwatch {
@@ -28,6 +29,7 @@ func New(target CloudwatchQueryParams, options ...Option) *Cloudwatch {
 			Statistics: target.Statistics,
 			Period:     target.Period,
 			Region:     target.Region,
+			Expr:       target.Expr,
 		},
 	}
 
@@ -50,12 +52,5 @@ func Ref(ref string) Option {
 func Hide() Option {
 	return func(cloudwatch *Cloudwatch) {
 		cloudwatch.Builder.Hide = true
-	}
-}
-
-// Expr sets the expression for this query.
-func Expr(expr string) Option {
-	return func(cloudwatch *Cloudwatch) {
-		cloudwatch.Builder.Expr = expr
 	}
 }

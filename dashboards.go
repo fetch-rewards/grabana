@@ -32,7 +32,7 @@ type Dashboard struct {
 
 // GetDashboardsInFolder returns a list of dashboards in the given folder.
 func (client *Client) GetDashboardsInFolder(ctx context.Context, folderId string) (*[]Dashboard, error) {
-	resp, err := client.get(ctx, "/api/search?type=dash-folder&folderIds="+folderId)
+	resp, err := client.get(ctx, "/api/search?folderIds="+folderId)
 	if err != nil {
 		return nil, err
 	}

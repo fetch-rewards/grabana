@@ -30,6 +30,31 @@ type Dashboard struct {
 	FolderURL   string   `json:"folderUrl"`
 }
 
+// GetDashboardsInFolder returns a list of dashboards in the given folder.
+func (client *Client) GetDashboardsInFolder(ctx context.Context, folderId string) (*[]Dashboard, error) {
+	resp, err := client.get(ctx, "/api/search?type=dash-folder&folderIds="+folderId)
+	if err != nil {
+		return nil, err
+	}
+
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, client.httpError(resp)
+	}
+
+	var dashboards []Dashboard
+	if err := decodeJSON(resp.Body, &dashboards); err != nil {
+		return nil, err
+	}
+
+	if len(dashboards) == 0 {
+		return nil, ErrDashboardNotFound
+	}
+
+	return &dashboards, nil
+}
+
 // GetDashboardByTitle finds a dashboard, given its title.
 func (client *Client) GetDashboardByTitle(ctx context.Context, title string) (*Dashboard, error) {
 	resp, err := client.get(ctx, "/api/search?type=dash-db&query="+url.QueryEscape(title))
